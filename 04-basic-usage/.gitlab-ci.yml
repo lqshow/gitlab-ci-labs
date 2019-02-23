@@ -6,6 +6,9 @@ variables:
   CONTAINER_NAME: gilab-ci-nodejs
   STAGING_VERSION: 0.0.1
 
+services:
+  - docker:dind
+  
 # 定义需要被缓存的文件、文件夹列表
 cache:
   paths:
