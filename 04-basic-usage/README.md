@@ -19,3 +19,9 @@ Skeleton project for Swagger
    	lqshow/gilab-ci-nodejs:0.01
    ```
 
+3. 访问应用
+
+   ```bash
+   curl http://localhost:10010/hello
+   ```
+

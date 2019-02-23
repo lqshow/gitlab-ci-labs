@@ -45,6 +45,5 @@ docker run -d --name docker-gitlab-runner --restart always \
 
 ## References
 
-- [本地基于Docker+Gitlab+Gilab CI搭建持续集成环境](https://github.com/lqshow/notes/issues/29)
 - [Run GitLab Runner in a container](https://gitlab.com/gitlab-org/gitlab-runner/blob/master/docs/install/docker.md)
 
