@@ -40,20 +40,22 @@ prepare:
 	@sed -ie "s/_IMAGE_VERSION_/$(VERSION)/g" $(K8S_DIR)/deployment.ci.tpl.yml
 	@sed -ie "s/_APP_NAME_/$(APP_NAME)/g" $(K8S_DIR)/deployment.ci.tpl.yml
 
-image-build:
+build:
 	@docker build -t $(IMAGE):$(VERSION) -f Dockerfile --build-arg VERSION=$(VERSION) --build-arg BUILD_IMAGE=$(BUILD_IMAGE) .
 
-image-publish:
+publish:
 	@docker push $(IMAGE):$(VERSION)
 
-deploy-to-staging:
-	@$(MAKE) prepare
+release: build publish
+
+deploy-to-staging: prepare
 	@kubectl apply -f $(K8S_DIR)/deployment.ci.tpl.yml --record
 
 .PHONY: version \
 		install-deps \
 		test \
 		prepare \
-		image-build \
-		image-publish \
+		build \
+		publish \
+		release \
 		deploy-to-staging

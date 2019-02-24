@@ -1,0 +1,59 @@
+# pipeline 依赖的 docker 镜像
+image: node:latest
+
+variables:
+  IMAGE_NAME: gilab-ci-k8s-nodejs
+  APP_NAME: gilab-ci-k8s-nodejs
+  PRODUCTION_VERSION: 0.0.1
+
+services:
+  - docker:dind
+
+# 定义需要被缓存的文件、文件夹列表
+cache:
+  paths:
+    - node_modules/
+
+# 本次 pipeline 的 stages
+stages:
+ - install_deps
+ - test
+ - build
+ - staging
+
+# 安装依赖
+install_deps:
+  stage: install_deps
+  only:
+    - master
+  script:
+    - make install-deps
+  retry: 2
+
+# 运行测试
+test:
+  stage: test
+  only:
+    - master
+  script:
+   - make test
+  retry: 2
+
+# 部署测试服务器
+build:
+  image: docker:latest
+  stage: build
+  only:
+    - master
+  script:
+    - apk upgrade --update && apk add bash make
+    - make release
+
+# 部署测试服务器
+deploy_to_staging:
+   image: ci-kubectl:latest
+   stage: staging
+   only:
+    - master
+   script:
+    - make deploy-to-staging
