@@ -1,0 +1,7 @@
+.git
+.gitignore
+.gitlab-ci.yml
+.idea
+.DS_Store
+README.md
+**/node_modules

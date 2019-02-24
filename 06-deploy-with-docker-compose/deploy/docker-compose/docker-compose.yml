@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  gilab-ci-nodejs:
+    build: ../../
+    restart: always
+    env_file:
+      - ./.env
+    ports:
+      - 10010:10010
