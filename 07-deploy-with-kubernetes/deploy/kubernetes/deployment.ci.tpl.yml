@@ -34,7 +34,7 @@ spec:
     spec:
       containers:
         - name: _APP_NAME_-container
-          image: _IMAGE_NAME_:_IMAGE_VERSION_
+          image: docker.io/lqshow/_IMAGE_NAME_:_IMAGE_VERSION_
           imagePullPolicy: Always
           ports:
             - containerPort: 10010
