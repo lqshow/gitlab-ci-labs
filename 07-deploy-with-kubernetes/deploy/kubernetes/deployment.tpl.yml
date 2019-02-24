@@ -1,0 +1,45 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: _APP_NAME_
+  labels:
+    app: _APP_NAME_
+spec:
+  ports:
+    - port: 10010
+      targetPort: 10010
+      protocol: TCP
+      name: http
+  selector:
+      app: _APP_NAME_
+---      
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: _APP_NAME_
+  labels:
+    app: _APP_NAME_
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: _APP_NAME_
+  
+  # Pod template
+  template:
+    metadata:
+      labels:
+        app: _APP_NAME_
+    spec:
+      containers:
+        - name: _APP_NAME_-container
+          image: _IMAGE_NAME_:_IMAGE_VERSION_
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 10010
+          env:
+            - name: NODE_ENV
+              value: test
+      imagePullSecrets:
+        - name: gitlab-registry

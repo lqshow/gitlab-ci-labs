@@ -1,3 +1,5 @@
+Skeleton project for Swagger
+
 ## Overview
 为了确保我们所有的 CI 任务在本地都是可复制的，我们将使用 Makefile 代替所有的命令。
 
