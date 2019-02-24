@@ -33,11 +33,17 @@ Skeleton project for Swagger
 
 创建 Dockerfile 文件用于和 k8s cluster 通讯的 base ci  镜像
 
+#### 需要准备的事项
+
+1. KUBE_APISERVER
+2. CA_CRT_FILE
+3. USER_TOKEN
+
 ```dockerfile
 FROM lqshow/docker-kubectl
 
 RUN mkdir -p /data/kubeconfig
-COPY resource/dev-ca.crt /data/kubeconfig/dev-ci-ca.crt
+COPY resource/${CA_CRT_FILE} /data/kubeconfig/dev-ci-ca.crt
 
 # Configure Access to Clusters
 RUN kubectl config set-cluster cluster-staging \
