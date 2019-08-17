@@ -34,6 +34,8 @@ docker run -d --name docker-gitlab-runner --restart always \
 2. 进入容器后，在容器内执行注册命令
 
    ```bash
+   # 1. 普通模式
+   
    gitlab-runner register -n \
       --url http://xx.xx.xx.xx/ \
       --registration-token PROJECT_REGISTRATION_TOKEN \
@@ -42,8 +44,36 @@ docker run -d --name docker-gitlab-runner --restart always \
       --docker-image "docker:latest" \
       --docker-volumes /var/run/docker.sock:/var/run/docker.sock
    ```
+   
+   ```bash
+   # 2. 自签名证书模式
+
+   # 如果服务器地址是：https://my.gitlab.server.com
+   # 对应创建证书文件需命名为：/etc/gitlab-runner/certs/my.gitlab.server.com.crt
+   
+   
+   gitlab-runner register -n \
+      --url https://my.gitlab.server.com/ \
+      --registration-token REGISTRATION_TOKEN \
+      --executor docker \
+      --description "Runner Certification" \
+      --docker-image "docker:latest" \
+      --docker-memory 4096M \
+      --docker-cpus 4 \
+      --tls-ca-file /etc/gitlab-runner/certs/my.gitlab.server.com.crt \
+      --docker-volumes /var/run/docker.sock:/var/run/docker.sock
+   ```
+    
+3. 修改 config.toml 配置，将旧的 runner 配置为自签名证书模式
+
+    ```toml
+    [[runners]]
+      name = "Runner description"
+      url = "https://my.gitlab.server.com/"
+      tls-ca-file = "/etc/gitlab-runner/certs/my.gitlab.server.com.crt"
+    ```
 
 ## References
 
 - [Run GitLab Runner in a container](https://gitlab.com/gitlab-org/gitlab-runner/blob/master/docs/install/docker.md)
-
+- [The self-signed certificates or custom Certification Authorities](https://docs.gitlab.com/runner/configuration/tls-self-signed.html)
